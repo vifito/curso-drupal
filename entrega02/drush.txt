@@ -1,0 +1,18 @@
+drush pm-download drupal
+mv drupal-7.31/ drupal-drush
+cd $_
+
+drush site-install standard --db-url=mysql://root:OSLd14-@localhost/drupal_drush --site-name="Drupal Drush" --locale=gl-ES
+drush user-password admin --password=drupal14
+
+drush pm-download contact backup_migrate devel diff drupalforfirebug environment_indicator module_filter features smtp
+drush pm-download views --dev
+
+drush en blog poll contact backup_migrate devel diff drupalforfirebug environment_indicator module_filter features smtp views
+
+export EDITOR=vim
+crontab -e
+*/1   * * * * root cd /home/osl/www/proba-drush && /usr/bin/drush core-cron &> /dev/null
+
+drush generate-users 101
+drush archive-dump
