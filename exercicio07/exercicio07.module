@@ -1,0 +1,53 @@
+<?php
+/**
+ * @file
+ * Exercicio 7
+ */
+
+ /**
+ * Implements hook_user_login().
+ */
+function exercicio07_user_login(&$edit, $account) {
+  global $base_url;
+
+  $perfil = profile2_load_by_user($account->uid);
+
+  $message = 'Ola %s %s. ' .
+    '<a href="%s/exercicio07">Consultar perfil</a> / ' .
+    '<a href="%s/user/%d/edit">Modificar nome e apelidos</a> / ' .
+    '<a href="%s/profile-main/%d/edit">Modificar datos acceso</a>';
+
+  $nome   = $perfil['main']->field_nome['und'][0]['value'];
+  $apelidos = $perfil['main']->field_apelidos['und'][0]['value'];
+
+  $message = filter_xss(
+    sprintf(
+      $message,
+      $nome,
+      $apelidos,
+      $base_url,
+      $base_url,
+      $account->uid,
+      $base_url,
+      $account->uid
+    ),
+    array('a')
+  );
+
+  drupal_set_message($message);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function exercicio07_menu() {
+  $items['exercicio07'] = array(
+    'title' => 'Exercicio 7',
+    'page callback' => 'exercicio07_callback',
+    'file' => 'inc/exercicio07_callback.inc',
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}

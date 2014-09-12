@@ -1,0 +1,9 @@
+name = Exercicio07
+description = Módulo do exercicio 7.
+package = OSL
+dependencies[] = profile2
+version = 0.0.1
+core = 7.x
+
+files[]=exercicio07.module
+files[]=inc/exercicio07_callback.inc
